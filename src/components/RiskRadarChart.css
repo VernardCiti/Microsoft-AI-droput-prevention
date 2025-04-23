@@ -1,0 +1,320 @@
+/* RiskRadarChart.css */
+
+.risk-radar-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .radar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .radar-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+  }
+  
+  .radar-selection select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    min-width: 200px;
+  }
+  
+  .risk-visualization {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  .radar-chart {
+    flex: 1;
+    min-width: 300px;
+    height: 400px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .high-risk-students {
+    flex: 0 0 300px;
+  }
+  
+  .high-risk-students h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+  }
+  
+  .risk-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .risk-student {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  
+  .risk-student:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .risk-student.high-risk {
+    background-color: rgba(255, 99, 71, 0.1);
+    border-left: 4px solid #ff6347;
+  }
+  
+  .risk-student.medium-risk {
+    background-color: rgba(255, 206, 86, 0.1);
+    border-left: 4px solid #ffce56;
+  }
+  
+  .risk-student.low-risk {
+    background-color: rgba(75, 192, 192, 0.1);
+    border-left: 4px solid #4bc0c0;
+  }
+  
+  .student-name {
+    flex: 1;
+    font-weight: 500;
+  }
+  
+  .risk-score {
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .high-risk .risk-score {
+    background-color: #ff6347;
+    color: white;
+  }
+  
+  .medium-risk .risk-score {
+    background-color: #ffce56;
+    color: #333;
+  }
+  
+  .low-risk .risk-score {
+    background-color: #4bc0c0;
+    color: white;
+  }
+  
+  .risk-indicators {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  
+  .risk-flag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: white;
+  }
+  
+  .risk-flag.academic {
+    background-color: #ff6384;
+  }
+  
+  .risk-flag.behavioral {
+    background-color: #36a2eb;
+  }
+  
+  .risk-flag.attendance {
+    background-color: #ffcd56;
+  }
+  
+  .risk-flag.engagement {
+    background-color: #4bc0c0;
+  }
+  
+  .risk-flag.emotional {
+    background-color: #9966ff;
+  }
+  
+  .student-details {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  
+  .student-details h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .risk-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .overall-risk {
+    flex: 0 0 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    /* border-radius: 50%; */
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+  
+  .overall-risk.high-risk {
+    background-color: #ff6347;
+  }
+  
+  .overall-risk.medium-risk {
+    background-color: #ffce56;
+    color: #333;
+  }
+  
+  .overall-risk.low-risk {
+    background-color: #4bc0c0;
+  }
+  
+  .risk-factors {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .risk-factor {
+    flex: 0 0 calc(50% - 10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 6px;
+  }
+  
+  .risk-factor.high-risk {
+    background-color: rgba(255, 99, 71, 0.1);
+    border-left: 3px solid #ff6347;
+  }
+  
+  .risk-factor.medium-risk {
+    background-color: rgba(255, 206, 86, 0.1);
+    border-left: 3px solid #ffce56;
+  }
+  
+  .risk-factor.low-risk {
+    background-color: rgba(75, 192, 192, 0.1);
+    border-left: 3px solid #4bc0c0;
+  }
+  
+  .factor-name {
+    font-weight: 500;
+  }
+  
+  .factor-value {
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .high-risk .factor-value {
+    background-color: #ff6347;
+    color: white;
+  }
+  
+  .medium-risk .factor-value {
+    background-color: #ffce56;
+    color: #333;
+  }
+  
+  .low-risk .factor-value {
+    background-color: #4bc0c0;
+    color: white;
+  }
+  
+  .student-notes {
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 15px;
+  }
+  
+  .student-notes h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .student-notes p {
+    margin: 0;
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  .no-data-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    color: #888;
+    font-size: 1.1rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .risk-visualization {
+      flex-direction: column;
+    }
+    
+    .radar-chart {
+      flex: none;
+      width: 100%;
+    }
+    
+    .high-risk-students {
+      flex: none;
+      width: 100%;
+    }
+    
+    .risk-factor {
+      flex: 0 0 100%;
+    }
+    
+    .radar-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
