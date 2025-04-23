@@ -7,6 +7,8 @@ Note the admin/portal analytics dashboard and Agentic Ai deployed
 I created two repos for this solution you can refer to this <https://github.com/VernardCiti/Microsoft-AI-droput-prevention>
 for the journey of committing
 ## 🎯 Key Features
+## Agentic workflow
+** ![Agentic ai workflow](https://github.com/user-attachments/assets/9f412fc0-22ff-4e56-88ef-8f2038076cbe)
 
 ### 🔍 Predictive Risk Identification
 - **AI Risk Engine**: Uses **Azure Machine Learning** to analyze academic, attendance, and socio-economic data with **92% accuracy**.
