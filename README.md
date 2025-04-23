@@ -13,7 +13,7 @@
 ---
 
 ## 🗺️ System Architecture
-![System Architecture Diagram]([path/to/diagram.png](https://github.com/user-attachments/assets/10e041df-19e9-4bb5-a807-28946a263123)
+![System Architecture Diagram](https://github.com/user-attachments/assets/10e041df-19e9-4bb5-a807-28946a263123)
 ![Agent AI![deepseek_mermaid_20250423_d9359e]![deepseek_mermaid_20250423_46beb3](https://github.com/user-attachments/assets/e98af1cf-ed92-42c9-b40e-d169e41e004e)
 *Hybrid cloud architecture combining Microsoft Azure and Firebase*
 
