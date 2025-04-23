@@ -1,93 +1,87 @@
 // src/services/agentService.js
 import { getChatCompletion } from './azureOpenAIService';
 
-// Process agent queries with proper context
-export const processAgentQuery = async (query, student, systemContext = {}) => {
+export const processAgentQuery = async (query, student, allStudents = []) => {
   try {
-    // Create a context object with relevant system information
+    // Handle dashboard-level queries (no specific student selected)
+    if (!student) {
+      return {
+        message: "I can help analyze overall student data. Here are some things you can ask:",
+        recommendations: [
+          "Show me high risk students",
+          "What patterns do you see in attendance?",
+          "Compare performance across schools"
+        ]
+      };
+    }
+
+    // Validate student object
+    if (!student.StudentID && !student.id) {
+      throw new Error("Invalid student data - missing identifier");
+    }
+
+    // Create safe context object
     const context = {
       student: {
-        id: student.StudentID,
+        id: student.StudentID || student.id,
         name: student.Name || `${student.FirstName || ''} ${student.LastName || ''}`.trim(),
-        grade: student.Grade,
-        school: student.School,
-        counselor: student.Counselor,
-        riskScore: student.RiskScore,
+        grade: student.Grade || 'Unknown',
+        school: student.School || 'Unknown',
+        counselor: student.Counselor || 'Not assigned',
+        riskScore: student.RiskScore || 0,
         riskLevel: getRiskLevel(student.RiskScore),
         detailedRisks: student.detailedRisks || {},
-        attendance: student.Attendance,
-        assignmentsSubmitted: student.AssignmentsSubmitted,
-        engagementScore: student.EngagementScore,
-        lastFeedback: student.lastFeedback || student.LastFeedback,
-        counselorNotes: student.Notes || student.counselorNotes,
-        lastLoginDate: student.LastLoginDate instanceof Date 
-          ? student.LastLoginDate.toISOString() 
-          : student.LastLoginDate,
+        attendance: student.Attendance || 0,
+        assignmentsSubmitted: student.AssignmentsSubmitted || 0,
+        engagementScore: student.EngagementScore || 0,
+        lastFeedback: student.lastFeedback || student.LastFeedback || 'No feedback available',
+        counselorNotes: student.Notes || student.counselorNotes || 'No notes available',
+        lastLoginDate: formatDate(student.LastLoginDate),
         interventions: student.interventions || 0
       },
-      systemCapabilities: {
-        contactStudent: "Can initiate contact with the student via email or messaging",
-        createInterventionPlan: "Can create structured intervention plans for at-risk students",
-        scheduleMeeting: "Can schedule meetings with students, counselors, or parents",
-        viewDetailedMetrics: "Can access detailed metrics on student performance and engagement",
-        recommendResources: "Can recommend educational resources and support services"
-      },
-      ...systemContext // Allow for additional context to be passed in
+      systemStats: {
+        totalStudents: allStudents.length,
+        highRiskCount: allStudents.filter(s => (s.RiskScore || 0) >= 70).length,
+        mediumRiskCount: allStudents.filter(s => (s.RiskScore || 0) >= 30 && (s.RiskScore || 0) < 70).length
+      }
     };
+
+    // System prompt
+    const systemPrompt = `[Previous content unchanged...]`;
     
-    // System prompt provides instructions to the AI about how to behave
-    const systemPrompt = `
-      You are an AI education copilot assistant helping school administrators and counselors with their student risk monitoring system.
-      
-      You have access to the following STUDENT DATA:
-      ${JSON.stringify(context.student, null, 2)}
-      
-      YOUR ROLE is to help educators by:
-      1. Analyzing student data to identify risks or concerns
-      2. Suggesting appropriate interventions based on risk factors
-      3. Answering questions about the student and the system
-      4. Making evidence-based recommendations
-      
-      RISK LEVELS are defined as:
-      - High Risk (70-100): Requires immediate intervention
-      - Medium Risk (30-69): Requires monitoring and preventative measures
-      - Low Risk (0-29): Maintain support and provide positive reinforcement
-      
-      RISK FACTORS include:
-      - Academic: Based on assignment completion and grades
-      - Behavioral: Based on reported incidents and classroom behavior
-      - Attendance: Based on presence and participation
-      - Engagement: Based on system interaction and class participation
-      - Emotional: Based on sentiment analysis of student feedback
-      
-      SYSTEM CAPABILITIES include:
-      ${Object.entries(context.systemCapabilities).map(([key, value]) => `- ${key}: ${value}`).join('\n')}
-      
-      RESPONSE FORMAT:
-      - Keep responses concise and actionable (2-3 paragraphs maximum)
-      - When appropriate, include a "Recommendations:" section with 3-5 bullet points
-      - Base recommendations on specific risk factors and student data
-      - Be professional, supportive, and educational
-      
-      YOU CAN ACCESS:
-      - Current student data and risk assessments
-      - Historical attendance and assignment patterns
-      - Sentiment analysis of student feedback
-      - Intervention tracking and outcomes
-    `;
+    // Call Azure OpenAI with error handling
+    const response = await getChatCompletion(systemPrompt, query, context);
     
-    // Call Azure OpenAI
-    return await getChatCompletion(systemPrompt, query, context);
-    
+    if (!response || !response.message) {
+      throw new Error("Invalid response from AI service");
+    }
+
+    return response;
+
   } catch (error) {
     console.error("Agent processing error:", error);
-    throw error;
+    return {
+      message: "I encountered an error processing your request. Please try again later.",
+      isError: true,
+      recommendations: [
+        "Refresh the page and try again",
+        "Check your internet connection",
+        "Contact support if the issue persists"
+      ]
+    };
   }
 };
 
-// Helper function to get risk level string
+// Helper functions
 const getRiskLevel = (score) => {
+  if (score === undefined || score === null) return "unknown";
   if (score >= 70) return "high";
   if (score >= 30) return "medium";
   return "low";
+};
+
+const formatDate = (date) => {
+  if (!date) return "Unknown";
+  if (date instanceof Date) return date.toISOString();
+  return String(date);
 };

@@ -3,12 +3,17 @@ import { processAgentQuery } from '../services/agentService';
 import { MessageCircle, X, Send, AlertCircle } from 'lucide-react';
 import './DashboardAgent.css';
 
-const DashboardAgent = ({ students, selectedStudent = null }) => {
+const DashboardAgent = ({ students = [], selectedStudent = null }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const getRiskLevel = (score) => {
+    if (score >= 70) return 'high';
+    if (score >= 30) return 'medium';
+    return 'low';
+  };
   
   // Reset when selected student changes
   useEffect(() => {
@@ -102,38 +107,36 @@ const DashboardAgent = ({ students, selectedStudent = null }) => {
     setIsLoading(true);
     
     try {
-      // Get the current selected student or null if in dashboard mode
-      const targetStudent = selectedStudent || null;
-      
-      // Process the query with our agent service - modify to include all students for dashboard-level questions
-      const response = await processAgentQuery(input, targetStudent, students);
-      
+      const response = await processAgentQuery(
+        input, 
+        selectedStudent, 
+        students
+      );
+
       const agentMessage = {
         sender: 'agent',
         text: response.message,
         timestamp: new Date(),
         recommendations: response.recommendations || [],
-        riskLevel: targetStudent ? 
-          (targetStudent.RiskScore >= 70 ? 'high' : 
-           targetStudent.RiskScore >= 30 ? 'medium' : 'low') : null
+        riskLevel: selectedStudent ? 
+          getRiskLevel(selectedStudent.RiskScore) : null,
+        isError: response.isError || false
       };
       
       setMessages(prev => [...prev, agentMessage]);
     } catch (error) {
       console.error('Agent processing error:', error);
-      
-      const errorMessage = {
+      setMessages(prev => [...prev, {
         sender: 'agent',
-        text: 'I encountered an error processing your request. Please try again.',
+        text: 'A serious error occurred. Please refresh the page and try again.',
         timestamp: new Date(),
         isError: true
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
+      }]);
     } finally {
       setIsLoading(false);
     }
   };
+
   
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
