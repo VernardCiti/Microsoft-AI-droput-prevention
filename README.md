@@ -8,7 +8,7 @@
 - **98% Accuracy**: Azure ML-powered risk prediction
 - **Seamless Integration**: 5+ Microsoft services + Firebase + React
 - **Zero-Cost Architecture**: Built on free-tier services
-- **Live Demo**: [(https://www.loom.com/share/5de759022e934631afd6118f98e317e6?sid=827d9f67-76a7-4a0b-8f24-ba30bcdbd5da)]
+- **Live Demo**: https://www.loom.com/share/5de759022e934631afd6118f98e317e6?sid=827d9f67-76a7-4a0b-8f24-ba30bcdbd5da
 
 ---
 
