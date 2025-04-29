@@ -1,4 +1,7 @@
 # EduGuard: AI-Driven Dropout Prevention System
+**LOGINS:
+Username: student@test.com
+Password:123student**
 **Microsoft Azure-Powered Solution with 98% Prediction Accuracy**  
 ![Microsoft Azure](https://img.shields.io/badge/Microsoft_Azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
